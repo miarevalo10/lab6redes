@@ -24,16 +24,12 @@ public class InterfazCliente extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 
-
-	private Cliente logica;
-
 	private JTextField txtIp;
 	private JTextField txtPuerto;
 	private JTextField txtNumero;
 
 	private InterfazCliente(){
 
-		logica = new Cliente();
 
 		setTitle("Conexión UDP");
 		getContentPane( ).setLayout( new BorderLayout( ) );
@@ -86,7 +82,7 @@ public class InterfazCliente extends JFrame implements ActionListener{
 
 			try{
 
-				logica.enviarObjetos(txtIp.getText(),txtPuerto.getText(),Integer.parseInt(txtNumero.getText()));
+				Cliente.enviarObjetos(txtIp.getText(),Integer.parseInt(txtPuerto.getText()),Integer.parseInt(txtNumero.getText()));
 			}
 			catch(Exception e){
 
