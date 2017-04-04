@@ -12,11 +12,11 @@ public class Cliente {
 		int contador=1;
 		
         DatagramSocket sock = new DatagramSocket();
-        InetAddress host = InetAddress.getByName("localhost");
+        InetAddress host = InetAddress.getByName(ip);
          
         while(contador<=cantidad)
         {
-            String s = "secuencia: "+contador+" timestamp" + new Date();
+            String s = "secuencia: "+contador+" timestamp: " + new Date();
             byte[] b = s.getBytes();
              
             DatagramPacket  dp = new DatagramPacket(b , b.length , host , puerto);
@@ -24,13 +24,15 @@ public class Cliente {
             
             //now receive reply
             //buffer to receive incoming data
-            byte[] buffer = new byte[65536];
-            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-            sock.receive(reply);
-             
-            byte[] data = reply.getData();
-            s = new String(data, 0, reply.getLength());
-            System.out.println(s);
+//            byte[] buffer = new byte[65536];
+//            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+//            sock.receive(reply);
+//             
+//            byte[] data = reply.getData();
+//            s = new String(data, 0, reply.getLength());
+//            System.out.println(s);
+            
+            contador++;
         }
         
         sock.close();
