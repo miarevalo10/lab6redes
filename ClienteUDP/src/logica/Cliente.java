@@ -16,11 +16,21 @@ public class Cliente {
          
         while(contador<=cantidad)
         {
-            String s = "secuencia: "+contador+"timestamp" + new Date();
+            String s = "secuencia: "+contador+" timestamp" + new Date();
             byte[] b = s.getBytes();
              
             DatagramPacket  dp = new DatagramPacket(b , b.length , host , puerto);
             sock.send(dp);
+            
+            //now receive reply
+            //buffer to receive incoming data
+            byte[] buffer = new byte[65536];
+            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+            sock.receive(reply);
+             
+            byte[] data = reply.getData();
+            s = new String(data, 0, reply.getLength());
+            System.out.println(s);
         }
         
         sock.close();
