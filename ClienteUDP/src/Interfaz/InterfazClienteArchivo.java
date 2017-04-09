@@ -14,9 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import logica.Cliente;
 
 public class InterfazClienteArchivo extends JFrame implements ActionListener{
 
@@ -88,6 +91,7 @@ public class InterfazClienteArchivo extends JFrame implements ActionListener{
 		
 		gbc = new GridBagConstraints( 1, 1, 5, 1, 10, 0, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, new Insets( 5, 5, 5, 5 ), 0, 0 );
 		txtArchivo= new JTextField();
+		txtArchivo.setEditable(false);
 		pFile.add(txtArchivo,gbc);
 		
 		gbc = new GridBagConstraints( 6, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, new Insets( 5, 5, 5, 5 ), 0, 0 );
@@ -129,17 +133,18 @@ public class InterfazClienteArchivo extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getActionCommand().equals("Enviar")){
-			JFileChooser fc = new JFileChooser( "./data" );
-			fc.setDialogTitle( "Seleccione carpeta de origen" );
-			if( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
-			{
-				archivo=fc.getSelectedFile();
-				txtArchivo.setText(archivo.getName());
+			if(!txtArchivo.getText().equals("")){
+				try {
+					Cliente.enviarArchivo(archivo,txtIp.getText(),Integer.parseInt(txtPuerto.getText()),Integer.parseInt(txtTamBuffer.getText()));
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog( this, " ", "Error", JOptionPane.ERROR_MESSAGE );
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(event.getActionCommand().equals("Archivo")){
 			JFileChooser fc = new JFileChooser( "./data" );
-			fc.setDialogTitle( "Seleccione carpeta de origen" );
+			fc.setDialogTitle( "Seleccione Archivo" );
 			if( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
 			{
 				archivo=fc.getSelectedFile();
