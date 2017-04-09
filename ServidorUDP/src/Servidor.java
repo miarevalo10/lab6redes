@@ -20,7 +20,8 @@ public class Servidor
 
 		try	
 		{
-//			puerto = Integer.parseInt(args[0]); --> Desdocumentar para exportar a jar y pasar puerto por consola
+			puerto = Integer.parseInt(args[0]);
+			//--> Desdocumentar para exportar a jar y pasar puerto por consola
 
 			//1. creating a server socket, parameter is local port number
 			sock = new DatagramSocket(puerto);

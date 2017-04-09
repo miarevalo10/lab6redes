@@ -30,7 +30,7 @@ public class InfoCliente {
 		totaltiempo+=diferencia;
 		System.out.println("DESDE INFO " + secuencia + " : " + diferencia +"ms");
 		secuencias.add(secuencia + " : " + diferencia +"ms");
-		if(recibidos==totalObjetos)
+		if(Integer.parseInt(secuencia)==totalObjetos)
 		{
 			guardar();
 		}
@@ -57,6 +57,10 @@ public class InfoCliente {
 		}
 		System.out.println("PROMEDIO: " + (double)totaltiempo/recibidos);
 		out.println("PROMEDIO: " + (double)totaltiempo/recibidos);
+		out.println("Numero de paquetes recibidos: " + recibidos);
+		out.println("Numero de paquetes perdidos: " + (totalObjetos-recibidos));
+
+
 
     
     out.close();
