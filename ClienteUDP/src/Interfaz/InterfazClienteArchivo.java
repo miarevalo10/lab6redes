@@ -149,8 +149,6 @@ public class InterfazClienteArchivo extends JFrame implements ActionListener{
 				archivo=fc.getSelectedFile();
 				txtArchivo.setText(archivo.getName());
 			}
-		}
-		
+		}	
 	}
-
 }

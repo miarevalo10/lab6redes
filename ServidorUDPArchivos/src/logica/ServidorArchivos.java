@@ -1,14 +1,11 @@
 package logica;
-import java.io.BufferedOutputStream;
+
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class ServidorArchivos {
@@ -51,7 +48,7 @@ public class ServidorArchivos {
 
 				//Atributos básicos de conexion
 				String ipCli = incoming.getAddress().getHostAddress();
-				int portCli = incoming.getPort();
+//				int portCli = incoming.getPort();
 
 
 				//delegar al manejador

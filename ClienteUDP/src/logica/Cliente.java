@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,21 +43,8 @@ public class Cliente {
 
 			byte[] data = outputStream.toByteArray();
 
-			//            System.out.println("Cliente envía: " + s);
-			//            byte[] b = s.getBytes();
-
 			DatagramPacket  dp = new DatagramPacket(data , data.length , host , puerto);
 			sock.send(dp);
-
-			//now receive reply
-			//buffer to receive incoming data
-			//byte[] buffer = new byte[65536];
-			//DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-			//sock.receive(reply);
-
-			//byte[] data = reply.getData();
-			//s = new String(data, 0, reply.getLength());
-			//System.out.println("Cliente recibe " + s);
 
 			contador++;
 		}
@@ -103,6 +89,16 @@ public class Cliente {
 		}
 
 		byte[] digest = md.digest();
+		ParteArchivo temp = new ParteArchivo(tamano, -1, archivo.getName(), digest);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ObjectOutputStream os = new ObjectOutputStream(outputStream);
+		os.writeObject(temp);
+		
+		byte[] data3 = outputStream.toByteArray();
+		
+		DatagramPacket dp=new DatagramPacket(data3, data3.length, host, puerto);
+		sock.send(dp);
 		
 		System.out.println("Hash " + convertByteArrayToHexString(digest));
 

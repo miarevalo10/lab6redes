@@ -1,9 +1,8 @@
 package logica;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.security.MessageDigest;
 
 public class ManejadorArchivo{
 	
@@ -11,6 +10,7 @@ public class ManejadorArchivo{
 	private String nombreLibro;
 	private int cantidad;
 	private int tamano;
+	private String hashCliente;
 	
 	private ParteArchivo[] buffer;
 
@@ -19,32 +19,38 @@ public class ManejadorArchivo{
 		this.ipCliente = ipCliente;
 		this.nombreLibro = nombreLibro;
 		this.cantidad = cantidad;
+		this.hashCliente="";
 		
-		buffer= new ParteArchivo[cantidad];
+		buffer= new ParteArchivo[this.cantidad];
 	}
 
 	public void guardarData(ParteArchivo parte) {
 		
-		tamano= parte.getData().length*parte.getTotal();
-		
-		System.out.println("guardando " + parte.getSecuencia() + " - "+ parte.getTotal());
-		
-		buffer[parte.getSecuencia()-1]=parte;
-		if(verificarBuffer()){
-			guardarLibro();
+		if(parte.getSecuencia()==-1){
+			hashCliente=convertByteArrayToHexString(parte.getData());
+		}
+		else{
+			 tamano= parte.getData().length*parte.getTotal();
+		     buffer[parte.getSecuencia()-1]=parte;
+		}
+			
+		if(verificarBuffer()&&!hashCliente.equals("")){
+			try {
+				guardarLibro();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		};
 	}
 
-	public void guardarLibro() {
+	public void guardarLibro() throws Exception {
 		
 		System.out.println("creando" + nombreLibro);	
-		FileOutputStream fos=null;
-		try {
-			fos = new FileOutputStream(nombreLibro, true);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		//hash
+	    MessageDigest md = MessageDigest.getInstance("MD5");
+	    
+	    FileOutputStream fos=new FileOutputStream(nombreLibro);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
 		
 		byte [] mybytearray  = new byte [tamano+ 1024*1024];
@@ -56,16 +62,20 @@ public class ManejadorArchivo{
 			ParteArchivo temp = buffer[i];
 			System.arraycopy(temp.getData(), 0, mybytearray, actual, temp.getData().length);
 			actual +=temp.getData().length;
+			
+			md.update(temp.getData());
 		}
 		
-		try {
-			bos.write(mybytearray, 0 , actual);
-			bos.flush();
-			System.out.println("done");
-		} catch (IOException e) {
-			e.printStackTrace();
+		bos.write(mybytearray, 0 , actual);
+		bos.flush();
+		System.out.println("done");
+		bos.close();
+		
+		byte[] digest = md.digest();
+		String hashServer = convertByteArrayToHexString(digest);
+		if(hashServer.equals(hashCliente)){
+			System.out.println("Ambos hash son iguales");
 		}
-			
 	}
 
 	public String getIpCliente() {
@@ -82,5 +92,13 @@ public class ManejadorArchivo{
 		}
 		return true;
 		
+	}
+	
+	private static String convertByteArrayToHexString(byte[] arrayBytes) {
+		StringBuffer stringBuffer = new StringBuffer();
+		for (int i = 0; i < arrayBytes.length; i++) {
+			stringBuffer.append(Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16).substring(1));
+		}
+		return stringBuffer.toString();
 	}
 }
