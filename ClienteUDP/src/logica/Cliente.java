@@ -14,7 +14,7 @@ public class Cliente {
 		int contador=1;
 		
         DatagramSocket sock = new DatagramSocket();
-        InetAddress host = InetAddress.getByName("54.187.39.221"); 
+        InetAddress host = InetAddress.getByName(ip); 
         //--> Para probar con ec2 de aws
 //        InetAddress host = InetAddress.getByName("localhost");
 
@@ -36,15 +36,16 @@ public class Cliente {
             DatagramPacket  dp = new DatagramPacket(b , b.length , host , puerto);
             sock.send(dp);
             System.out.println("despues de enviar cli");
+            
             //now receive reply
             //buffer to receive incoming data
-            byte[] buffer = new byte[65536];
-            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-            sock.receive(reply);
+            //byte[] buffer = new byte[65536];
+            //DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+            //sock.receive(reply);
              
-            byte[] data = reply.getData();
-            s = new String(data, 0, reply.getLength());
-            System.out.println("Cliente recibe " + s);
+            //byte[] data = reply.getData();
+            //s = new String(data, 0, reply.getLength());
+            //System.out.println("Cliente recibe " + s);
             contador++;
         }
         
