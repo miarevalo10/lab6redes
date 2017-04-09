@@ -4,9 +4,9 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.text.DateFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import logica.Objeto;
 
@@ -46,9 +46,11 @@ public class Servidor
 			//communication loop
 			while(true) 	
 			{
-				if(cantidadT <=100){
+				if(cantidadT <=1000){
 					sock.receive(incoming);
 					byte[] data = incoming.getData();
+					
+					long date = new Date().getTime();
 
 //					String s = new String(data, 0, incoming.getLength());
 					ByteArrayInputStream in = new ByteArrayInputStream(data);
@@ -66,7 +68,7 @@ public class Servidor
 					int portCli = incoming.getPort();
 
 
-					ManejadorInfo t = new ManejadorInfo(obj, ipCli, portCli);
+					ManejadorInfo t = new ManejadorInfo(obj, ipCli, portCli, date);
 					t.run();
 					cantidadT++;
 				}
@@ -90,10 +92,6 @@ public class Servidor
 			}
 
 		}
-
-
 		return cli;
 	}
-
-
 }

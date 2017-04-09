@@ -28,8 +28,4 @@ public class Objeto implements Serializable{
 	public int getTotal() {
 		return total;
 	}
-	
-	
-	
-	
 }

@@ -13,12 +13,13 @@ public class ManejadorInfo extends Thread{
 	private String ipCli;
 	private int portCli;
 	private Objeto obj;
+	private long date;
 	
-	public ManejadorInfo(Objeto obj, String ipCli, int portCli){
+	public ManejadorInfo(Objeto obj, String ipCli, int portCli, long date){
 		this.obj=obj;
 		this.ipCli=ipCli;
 		this.portCli=portCli;
-		
+		this.date=date;
 	}
 
 	public void run(){
@@ -38,7 +39,7 @@ public class ManejadorInfo extends Thread{
 			e.printStackTrace();
 		}
 		
-		long diferencia = (new Date().getTime() - ts.getTime());
+		long diferencia = (date - ts.getTime());
 		
 		System.out.println("La diferencia es: " +diferencia+"ms");
 		int secuencia = obj.getSecuencia();

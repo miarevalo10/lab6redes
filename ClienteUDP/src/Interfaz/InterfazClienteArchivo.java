@@ -14,9 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import logica.Cliente;
 
 public class InterfazClienteArchivo extends JFrame implements ActionListener{
 
@@ -129,12 +132,13 @@ public class InterfazClienteArchivo extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getActionCommand().equals("Enviar")){
-			JFileChooser fc = new JFileChooser( "./data" );
-			fc.setDialogTitle( "Seleccione carpeta de origen" );
-			if( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
-			{
-				archivo=fc.getSelectedFile();
-				txtArchivo.setText(archivo.getName());
+			if(!txtArchivo.getText().equals("")){
+				try {
+					Cliente.enviarArchivo(archivo,txtIp.getText(),Integer.parseInt(txtPuerto.getText()),Integer.parseInt(txtTamBuffer.getText()));
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog( this, " ", "Error", JOptionPane.ERROR_MESSAGE );
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(event.getActionCommand().equals("Archivo")){
