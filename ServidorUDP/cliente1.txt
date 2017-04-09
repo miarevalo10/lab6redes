@@ -1,0 +1,16 @@
+Cliente: 1 IP: 127.0.0.1 puerto: 59085
+1 : 94ms
+2 : 96ms
+3 : 95ms
+4 : 96ms
+5 : 97ms
+6 : 97ms
+7 : 98ms
+8 : 98ms
+9 : 98ms
+10 : 99ms
+11 : 99ms
+12 : 99ms
+PROMEDIO: 97.16666666666667
+Numero de paquetes recibidos: 12
+Numero de paquetes perdidos: 0

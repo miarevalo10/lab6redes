@@ -24,13 +24,13 @@ public class InfoCliente {
 		secuencias =  new ArrayList<String>();
 	}
 	
-	public void añadirSecuencia(String secuencia, long diferencia)
+	public void añadirSecuencia(int secuencia, long diferencia)
 	{
 		recibidos++;
 		totaltiempo+=diferencia;
 		System.out.println("DESDE INFO " + secuencia + " : " + diferencia +"ms");
 		secuencias.add(secuencia + " : " + diferencia +"ms");
-		if(Integer.parseInt(secuencia)==totalObjetos)
+		if(secuencia==totalObjetos)
 		{
 			guardar();
 		}
@@ -41,7 +41,9 @@ public class InfoCliente {
 	public void guardar()
 	{
 		FileWriter fw=null;
-		try {
+	
+		try 
+		{
 			fw = new FileWriter("cliente" + idCliente + ".txt", true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,9 +62,6 @@ public class InfoCliente {
 		out.println("Numero de paquetes recibidos: " + recibidos);
 		out.println("Numero de paquetes perdidos: " + (totalObjetos-recibidos));
 
-
-
-    
     out.close();
 	}
 	

@@ -45,7 +45,7 @@ public class InterfazCliente extends JFrame implements ActionListener{
 		info.add(new JLabel("Direccion IP:"),gbc);
 
 		gbc = new GridBagConstraints( 1, 0, 5, 1, 10, 0, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, new Insets( 5, 5, 5, 5 ), 0, 0 );
-		txtIp= new JTextField();
+		txtIp= new JTextField("54.187.39.221");
 		info.add(txtIp,gbc);
 
 
@@ -86,7 +86,7 @@ public class InterfazCliente extends JFrame implements ActionListener{
 			}
 			catch(Exception e){
 
-				JOptionPane.showMessageDialog( this, " ", "Error", JOptionPane.ERROR_MESSAGE );
+				JOptionPane.showMessageDialog( this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
 			}
 		}
 	}
