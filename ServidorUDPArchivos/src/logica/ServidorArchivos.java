@@ -18,11 +18,12 @@ public class ServidorArchivos {
 
 		int puerto = 8081;
 		DatagramSocket sock = null;
-		int tamBuffer = 65536;
+		int tamBuffer = 65000;
 
 		try	
 		{
-			//			puerto = Integer.parseInt(args[0]); --> Desdocumentar para exportar a jar y pasar puerto por consola
+			//puerto = Integer.parseInt(args[0]); 
+			//--> Desdocumentar para exportar a jar y pasar puerto por consola
 
 			sock = new DatagramSocket(puerto);
 			byte[] buffer = new byte[tamBuffer];
@@ -41,33 +42,20 @@ public class ServidorArchivos {
 
 				try {
 					obj = (ParteArchivo) is.readObject();
-					System.out.println("Object received = "+obj);
+					System.out.println(obj);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 
 				//Atributos básicos de conexion
 				String ipCli = incoming.getAddress().getHostAddress();
-//				int portCli = incoming.getPort();
+				int portCli = incoming.getPort();
 
 
-				//delegar al manejador
-				ManejadorArchivo a = darManejador(ipCli);
-				if(a!=null){
-					if(obj.getSecuencia()==1){
-						a = new ManejadorArchivo(ipCli, obj.getNombreArchivo(),obj.getTotal());
-						a.guardarData(obj);	
-					}
-					else{
-						a.guardarData(obj);
-					}
-
-				}
-				else{
-					a = new ManejadorArchivo(ipCli, obj.getNombreArchivo(),obj.getTotal());
-					clientes.add(a);
-					a.guardarData(obj);	
-				}
+				//delegar al thread
+				ThreadServer t = new ThreadServer(ipCli, portCli, obj);
+				t.run();
+				
 			}
 		}
 

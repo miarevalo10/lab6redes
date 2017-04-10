@@ -26,51 +26,49 @@ public class ManejadorInfoCliente{
 	public void agregarObjeto(Objeto obj, long diferencia){
 
 		InfoObjeto temp = new InfoObjeto(diferencia,obj);
-		
+
 		buffer[obj.getSecuencia()-1]=temp;
-		
-		System.out.println("agregar: "+(obj.getSecuencia()-1)+" - "+buffer[obj.getSecuencia()-1]);
-		
-		if(obj.getSecuencia()==obj.getTotal()){
-			try {
-				guardarInfo();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+		try {
+			guardarInfo();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void guardarInfo() throws Exception{
-		
-		int cantidadActual=0;
+
+		long actual=0;
 		int perdidos=0;
 		int recibidos=0;
+
+		FileWriter fw = new FileWriter("cliente" + ipCli + "-" + puerto + ".txt");
 		
-		FileWriter fw = new FileWriter("cliente" + ipCli + "-" + puerto + ".txt", true);
-		
+
 		BufferedWriter bw = new BufferedWriter(fw);
 		PrintWriter out = new PrintWriter(bw);
-		
+
 		for (int i = 0; i < total; i++) {
-			
-			System.out.println(i + ":" + buffer[i]);
+
 			InfoObjeto temp= buffer[i];
-			
+
 			if(temp==null){
 				perdidos++;
 			}
 			else{
 				recibidos++;
-				cantidadActual+=temp.getDiferencia();
-			    out.println(temp.getObjeto().getSecuencia() + " : " + temp.getDiferencia()+"ms");
+				actual+=temp.getDiferencia();
+				out.println(temp.getObjeto().getSecuencia() + " : " + temp.getDiferencia()+"ms");
 			}
 		}
 
-		out.println("Promedio: " + (cantidadActual/recibidos));
+		out.println("Promedio: " + (actual/recibidos));
 		out.println("Numero de paquetes recibidos: " + recibidos);
 		out.println("Numero de paquetes perdidos: " + perdidos);
 
-    out.close();
+		System.out.println("Done client: " + ipCli + "-"+ puerto );
+
+		out.close();
 
 	}
 

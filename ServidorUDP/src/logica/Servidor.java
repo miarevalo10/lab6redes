@@ -26,7 +26,7 @@ public class Servidor
 		try	
 		{
 
-			//			puerto = Integer.parseInt(args[0]);
+			//puerto = Integer.parseInt(args[0]);
 			//--> Desdocumentar para exportar a jar y pasar puerto por consola
 
 
@@ -77,16 +77,8 @@ public class Servidor
 				}	
 				long diferencia = (date - ts.getTime());
 				
-				ManejadorInfoCliente manejador = darManejador(ipCli, portCli);	
-				if(manejador!=null){
-					manejador.agregarObjeto(obj, diferencia);
-				}
-				else{
-					System.out.println("nuevo");
-					manejador= new ManejadorInfoCliente(ipCli,portCli, obj.getTotal());
-					manejadores.add(manejador);
-					manejador.agregarObjeto(obj, diferencia);
-				}
+				ThreadServer t = new ThreadServer(obj, ipCli, portCli, diferencia);
+				t.run();
 			}
 		}
 
